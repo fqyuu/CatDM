@@ -9,23 +9,23 @@ The code has been tested with Python 3.5, tensorflow 1.12.2 on windows 10.
 ## Usage
 
 Download datasets for training/evaluation.
+*NYC & TKY
 
 ### 0. Generate Candidates
 
+To filter POIs and reduce the search space.
 ```bash
 $ python train.py
 ```
-Run 'train.py' to filter POIs and reduce the search space. Here, Encoder 1 and filtering layers form a reasonable filter capable of reducing search space, i.e., reducing the number of candidates from which recommended POIs are selected finally.
-
-To train and evaluate Encoder 1, we split each dataset into a training set, a validation set and a test set, here.
+To train and evaluate Encoder 1 and Filter, we split each dataset into a training set, a validation set and a test set, here. Encoder 1 and filtering layers form a reasonable filter capable of reducing search space, i.e., reducing the number of candidates from which recommended POIs are selected finally.
 
 Note that the value of variable 'tf.flags.DEFINE_string' can be selected by train or test.
 
 ### 1. Rank POI
 
+To sort the POIs in the candidate set.
+
 ```bash
 $ python train_rankpoi.py
 ```
-Run 'train_rankpoi.py' to accurately sort the POIs in the candidate set.
-
 Note that the value of variable 'tf.flags.DEFINE_string' can be selected by train or test.
