@@ -8,8 +8,8 @@ The code has been tested with Python 3.5, tensorflow 1.12.2 on windows 10.
 
 ## Usage
 
-Download datasets for training/evaluation.
-*NYC & TKY
+Datasets for training/evaluation.
+[NYC & TKY](https://www.kaggle.com/chetanism/foursquare-nyc-and-tokyo-checkin-dataset/version/2#)
 
 ### 0. Generate Candidates
 
