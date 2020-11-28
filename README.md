@@ -13,9 +13,9 @@ The code has been tested with Python 3.5, tensorflow 1.12.2 on windows 10.
 
 Datasets for training/evaluation.
 
-- [NYC: the Foursquare check-ins in New York](https://www.kaggle.com/chetanism/foursquare-nyc-and-tokyo-checkin-dataset/version/2#)
+- [NYC](https://www.kaggle.com/chetanism/foursquare-nyc-and-tokyo-checkin-dataset/version/2#): the Foursquare check-ins in New York
 
-- [TKY: the Foursquare check-ins in Tokyo](https://www.kaggle.com/chetanism/foursquare-nyc-and-tokyo-checkin-dataset/version/2#)
+- [TKY](https://www.kaggle.com/chetanism/foursquare-nyc-and-tokyo-checkin-dataset/version/2#): the Foursquare check-ins in Tokyo
 
 ## Usage
 
