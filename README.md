@@ -15,8 +15,14 @@ Download datasets for training/evaluation.
 ```bash
 $ python train.py
 ```
-Encoder 1 and filtering layers form a reasonable filter capable of reducing search space, i.e., reducing the
-number of candidates from which recommended POIs are selected finally.
+Run 'train.py' to filter POIs and reduce the search space. Here, Encoder 1 and filtering layers form a reasonable filter capable of reducing search space, i.e., reducing the number of candidates from which recommended POIs are selected finally.
+
+Note that the value of variable 'tf.flags.DEFINE_string' can be selected by train or test.
+
 
 ### Training
 
+```bash
+$ python train_rankpoi.py
+```
+Accurately sort the POIs in the candidate set.
