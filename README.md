@@ -10,8 +10,11 @@ The code has been tested with Python 3.5, tensorflow 1.12.2 on windows 10.
 
 Datasets for training/evaluation.
 
--[NYC](https://www.kaggle.com/chetanism/foursquare-nyc-and-tokyo-checkin-dataset/version/2#)
--[TKY](https://www.kaggle.com/chetanism/foursquare-nyc-and-tokyo-checkin-dataset/version/2#)
+-ssasa
+
+- [NYC](https://www.kaggle.com/chetanism/foursquare-nyc-and-tokyo-checkin-dataset/version/2#)
+
+- [TKY](https://www.kaggle.com/chetanism/foursquare-nyc-and-tokyo-checkin-dataset/version/2#)
 
 ### 0. Generate Candidates
 
