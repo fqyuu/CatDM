@@ -5,9 +5,9 @@ Fuqiang Yu, Lizhen Cui, Wei Guo, Xudong Lu, Qingzhong Li, Hua Lu
 
 ## Installation
 
-Install tensorflow 1.12.2.
+Install Python 3.5.
 
-The code has been tested with Python 3.5, tensorflow 1.12.2 on windows 10.
+Install tensorflow 1.12.2.
 
 ## Data
 
