@@ -1,7 +1,7 @@
 # CatDM
 
 [A Category-Aware Deep Model for Successive POI Recommendation on Sparse Check-in Data](https://dl.acm.org/doi/pdf/10.1145/3366423.3380202)  
-Fuqiang Yu, Lizhen Cui, Wei Guo, Xudong Lu, Qingzhong Li, Hua Lu (WWW-20)
+Fuqiang Yu, Lizhen Cui, Wei Guo, Xudong Lu, Qingzhong Li, Hua Lu
 
 ## Installation
 
@@ -19,7 +19,7 @@ Datasets for training/evaluation.
 
 ## Usage
 
-### 0. Generate Candidates
+### 1. Generate Candidates
 
 To filter POIs and reduce the search space.
 ```bash
@@ -29,7 +29,7 @@ To train and evaluate Encoder 1 and Filter, we split each dataset into a trainin
 
 Note that the value of variable 'tf.flags.DEFINE_string' can be selected by train or test.
 
-### 1. Rank POI
+### 2. Rank POI
 
 To sort the POIs in the candidate set.
 
