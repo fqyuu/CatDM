@@ -33,7 +33,6 @@ class CategoryModel(object):
                         })
 
 
-    # 占位符
     def add_placeholders(self):
         hps=self._hps
         self._user_id=tf.placeholder(tf.int32,name="user_id",shape=[hps.batch_size])
@@ -41,7 +40,6 @@ class CategoryModel(object):
         self._real_lenth = tf.placeholder(tf.float32, name="_real_lenth", shape=[hps.batch_size])
         self._target=tf.placeholder(tf.float32,name="_target",shape=[hps.batch_size,hps.nb_categories])
 
-    # 建模
     def create_model(self):
         hps=self._hps
         with tf.variable_scope("CategoryModel"):
@@ -78,7 +76,24 @@ class CategoryModel(object):
 
             with tf.variable_scope("decoder"):
 
+                # Original way.
+                # w_1 = tf.get_variable("w_1", initializer=tf.cast(np.zeros([hps.hidden_size, hps.hidden_size]), tf.float32),
+                #                       dtype=tf.float32)
+                # w_2 = tf.get_variable("w_2", initializer=tf.cast(np.zeros([hps.hidden_size, hps.hidden_size]), tf.float32),
+                #                       dtype=tf.float32)
+                # w_3= tf.get_variable("w_3", initializer=tf.cast(np.zeros([hps.hidden_size, hps.hidden_size]), tf.float32),
+                #                       dtype=tf.float32)
+                # category_unstack = tf.unstack(category_embedding, axis=0)
+                # x=[]
+                # for i, category_input in enumerate(category_unstack):
+                #     x.append(tf.matmul(self._enc_final_output,w_1)+tf.matmul([category_input],w_2)+tf.matmul(user_embed,w_3))
+                # x=tf.concat(x, axis=0)
+                # w=  tf.get_variable("w_softmax", initializer=tf.cast(np.zeros([hps.hidden_size, 2]), tf.float32),
+                #                       dtype=tf.float32)
+                # b = tf.get_variable("b_category", [hps.nb_categories,2], dtype=tf.float32)
+                # y = tf.nn.softmax(tf.matmul(x,w) + b)[:,1]
 
+                # We designed another more efficient way.
                 x_1=tf.matmul(user_embed,tf.transpose(category_embedding))
                 x_2=tf.matmul(self._enc_final_output,tf.transpose(category_embedding))
                 x_3=tf.matmul(tf.nn.embedding_lookup(category_embedding,self._enc_category[:,-1]),tf.transpose(category_embedding))
@@ -97,29 +112,7 @@ class CategoryModel(object):
 
                 self._loss = - tf.reduce_sum(tf.log(tf.clip_by_value(y,1e-8,1.0))*self._target)+loss_regular_user+loss_regular_cat+loss_regular_matrix
                 _, self.topk_cat = tf.nn.top_k(y, k=hps.topk_categoey)
-
-                # loss=0
-                # temp = tf.constant([])
-                # w_1 = tf.get_variable("w_1", initializer=tf.cast(np.zeros([hps.hidden_size, 2]), tf.float32),
-                #           dtype=tf.float32)
-                # w_2 = tf.get_variable("w_2", initializer=tf.cast(np.zeros([hps.hidden_size, 2]), tf.float32),
-                #           dtype=tf.float32)
-                # b = tf.get_variable("b", initializer=tf.cast(np.zeros([2]), tf.float32),
-                #         dtype=tf.float32)
-                # for i in range(hps.nb_categories):
-                #     if(i>0):
-                #         tf.get_variable_scope().reuse_variables()
-                #     w_1 = tf.get_variable("w_1", initializer=tf.cast(np.zeros([hps.hidden_size, 2]),tf.float32), dtype=tf.float32)
-                #     w_2 = tf.get_variable("w_2", initializer=tf.cast(np.zeros([hps.hidden_size, 2]),tf.float32), dtype=tf.float32)
-                #     # b = tf.get_variable("b", initializer=tf.cast(np.zeros([2]),tf.float32), dtype=tf.float32)
-                #     x=tf.matmul(self._enc_final_output, w_1)+tf.matmul([category_embedding[i]],w_2)
-                #     # y = tf.nn.softmax(x[0]+ b)
-                #     y = tf.nn.softmax(x[0])
-                #     # 计算loss
-                #     loss=loss-tf.reduce_sum(self._target[i]*tf.log(y))
-                #     temp=tf.concat([temp,[y[1]]],0)
-                # _,self.topk_cat=tf.nn.top_k(temp, k=hps.topk_categoey)
-                # self._loss=loss
+                print(self.topk_cat)
 
     def _add_train_op(self):
         hps = self._hps
@@ -143,4 +136,3 @@ class CategoryModel(object):
                                        trainable=False, dtype=tf.int32)
         if self._hps.mode == "train":
             self._add_train_op()
-
