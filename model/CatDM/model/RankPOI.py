@@ -43,7 +43,6 @@ class RankPOI(object):
                         })
 
 
-    # 占位符，数据量少--->batchsize可设为1
     def add_placeholders(self):
         hps=self._hps
         self._user_id=tf.placeholder(tf.int32,name="user_id",shape=[hps.batch_size])
@@ -59,7 +58,6 @@ class RankPOI(object):
 
         # self._preference_cat = tf.placeholder(tf.float32,name="_preference_cat",shape=[hps.batch_size,hps.hidden_size])
 
-    # 建模
     def create_model(self):
         hps=self._hps
         with tf.variable_scope("RankPOI"):
