@@ -140,9 +140,6 @@ def _valid(hps,step):
                 .format(step, losses / count, all_pre_5 / count, all_rec_5 / count, all_pre_10 / count,
                         all_rec_10 / count, all_pre_15 / count, all_rec_15 / count,all_rec / count))
 
-
-            checkpoint_path = os.path.join(save_dir, "model.ckpt")
-            saver.save(sess, checkpoint_path, global_step=step)
             # _valid(hps,step)
             _test(hps, step)
 
