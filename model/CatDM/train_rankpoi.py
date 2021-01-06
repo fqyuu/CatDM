@@ -86,8 +86,6 @@ def _train(hps, batcher):
                             .format(step, losses / count, all_pre_5 / count, all_rec_5 / count, all_pre_10 / count,
                                     all_rec_10 / count, all_pre_15 / count, all_rec_15 / count))
 
-                checkpoint_path = os.path.join(save_dir, "model.ckpt")
-                saver.save(sess, checkpoint_path, global_step=step)
                 # _test(hps,batcher,step)
                 hps = hps._replace(mode="train")
 
