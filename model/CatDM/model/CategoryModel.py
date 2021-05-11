@@ -112,7 +112,7 @@ class CategoryModel(object):
 
                 self._loss = - tf.reduce_sum(tf.log(tf.clip_by_value(y,1e-8,1.0))*self._target)+loss_regular_user+loss_regular_cat+loss_regular_matrix
                 _, self.topk_cat = tf.nn.top_k(y, k=hps.topk_categoey)
-                print(self.topk_cat)
+                # print(self.topk_cat)
 
     def _add_train_op(self):
         hps = self._hps
