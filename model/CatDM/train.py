@@ -21,8 +21,11 @@ write_filterPOI_path="../../data/Foursquare/{}/{}_FILTER_POI.txt".format(FLAGS.d
 prestate_save_path="result/pre_train.pkl"
 
 save_dir = "./save/CategoryModel/{}".format(FLAGS.data_type)
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
+
 save_dir_best = os.path.join(save_dir, "best")
-print(save_dir, save_dir_best)
+
 # short_state_path = "./short_state.pkl"
 
 # if os.path.exists(short_state_path):
@@ -136,9 +139,9 @@ def _valid(hps,step):
                     all_rec +=float(rec_z)
                     # pre_user_state_dict[user].append(final_output)
 
-            print("step:{}, valid_loss: {:.5f},valid_pre5:{:.5f}, valid_rec5:{:.5f},valid_pre10:{:.5f}, valid_rec10:{:.5f},valid_pre15:{:.5f}, valid_rec15:{:.5f},all_rec:{:.5f}"
+            print("step:{}, valid_loss: {:.5f},valid_pre5:{:.5f}, valid_rec5:{:.5f}, valid_pre10:{:.5f}, valid_rec10:{:.5f}, valid_pre15:{:.5f}, valid_rec15:{:.5f}, all_rec:{:.5f}"
                 .format(step, losses / count, all_pre_5 / count, all_rec_5 / count, all_pre_10 / count,
-                        all_rec_10 / count, all_pre_15 / count, all_rec_15 / count,all_rec / count))
+                        all_rec_10 / count, all_pre_15 / count, all_rec_15 / count, all_rec / count))
 
             # _valid(hps,step)
             _test(hps, step)
@@ -171,6 +174,9 @@ def _test(hps,step):
             all_rec_15 = float(0)
             # print("start to test")
             pre_user_state_dict = defaultdict(list)
+            if not os.path.exists(write_filterPOI_path):
+                file_t = open(write_filterPOI_path, 'w')
+                file_t.close()
             with open(write_filterPOI_path, 'r+') as file:
                 file.truncate(0)
             for user in range(hps.nb_users):
@@ -196,9 +202,9 @@ def _test(hps,step):
                     all_rec +=float(rec_z)
                     # pre_user_state_dict[user].append(final_output)
 
-            print("step:{}, test_loss: {:.5f},test_pre5:{:.5f}, test_rec5:{:.5f},test_pre10:{:.5f}, test_rec10:{:.5f},test_pre15:{:.5f}, test_rec15:{:.5f},all_rec:{:.5f}"
+            print("step:{}, test_loss: {:.5f}, test_pre5:{:.5f}, test_rec5:{:.5f}, test_pre10:{:.5f}, test_rec10:{:.5f}, test_pre15:{:.5f}, test_rec15:{:.5f}, all_rec:{:.5f}"
                 .format(step, losses / count, all_pre_5 / count, all_rec_5 / count, all_pre_10 / count,
-                        all_rec_10 / count, all_pre_15 / count, all_rec_15 / count,all_rec / count))
+                        all_rec_10 / count, all_pre_15 / count, all_rec_15 / count, all_rec / count))
 
 
 def compute_pre_topkcat_one(topk_cat,target_batch):

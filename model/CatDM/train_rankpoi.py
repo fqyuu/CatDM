@@ -6,7 +6,7 @@ import os, sys
 import pickle
 from tensorflow.python import pywrap_tensorflow
 
-tf.flags.DEFINE_string("train_or_test", "test", "Value can be selected by train or test")
+tf.flags.DEFINE_string("train_or_test", "train", "Value can be selected by train or test")
 tf.flags.DEFINE_string("data_type", "NYC",
                        "the type of dataset, NYC or TKY")
 FLAGS = tf.flags.FLAGS
@@ -28,6 +28,8 @@ category_embedding_name="Model/CategoryModel/embedding/category_embedding"
 # batcher_test=None
 
 save_dir = "./save/RANKPOI/{}".format(FLAGS.data_type)
+if not os.path.exists(save_dir):
+    os.makedirs(save_dir)
 # save_dir_best = os.path.join(save_dir, "best")
 
 
@@ -82,11 +84,13 @@ def _train(hps, batcher):
                             losses += loss
                             count += 1
 
-                print("step:{}, train_loss: {:.5f},train_pre5:{:.5f}, train_rec5:{:.5f},train_pre10:{:.5f}, train_rec10:{:.5f},train_pre15:{:.5f}, train_rec15:{:.5f}"
-                            .format(step, losses / count, all_pre_5 / count, all_rec_5 / count, all_pre_10 / count,
-                                    all_rec_10 / count, all_pre_15 / count, all_rec_15 / count))
+                # print("step:{}, train_loss: {:.5f}, train_pre5:{:.5f}, train_rec5:{:.5f}, train_pre10:{:.5f}, train_rec10:{:.5f}, train_pre15:{:.5f}, train_rec15:{:.5f}"
+                #             .format(step, losses / count, all_pre_5 / count, all_rec_5 / count, all_pre_10 / count,
+                #                     all_rec_10 / count, all_pre_15 / count, all_rec_15 / count))
 
-                # _test(hps,batcher,step)
+                checkpoint_path = os.path.join(save_dir, "model.ckpt")
+                saver.save(sess, checkpoint_path, global_step=step)
+                # _test(hps,batcher)
                 hps = hps._replace(mode="train")
 
 def _test(hps,batcher):
@@ -121,8 +125,12 @@ def _test(hps,batcher):
             can_all_rec_10 = float(0)
             can_all_pre_15=float(0)
             can_all_rec_15= float(0)
-            for step in range (200):
+
+            for step in range (200): #for mode 'test'
                 saver.restore(sess, os.path.join(save_dir, "model.ckpt-{}".format(step + 1)))
+            # for step in range (1):
+            #     saver.restore(sess, ckpt.model_checkpoint_path)  # the newest
+
                 for user in np.random.permutation(hps.nb_users):
 
                     state = sess.run(test_model.initial_state)
@@ -158,8 +166,8 @@ def _test(hps,batcher):
                             can_all_rec_15 += float(rec_15)
 
                 print(
-                    "step:{} test_loss: {:.5f},test_pre5@:{:.5f}, test_rec@5:{:.5f},test_pre@10:{:.5f}, test_rec@10:{:.5f},test_pre@15:{:.5f}, test_rec@15:{:.5f}"
-                        .format(step, losses / count, can_all_pre_5 / count, can_all_rec_5 / count,
+                    "loss: {:.5f},pre5@:{:.5f}, rec@5:{:.5f}, pre@10:{:.5f}, rec@10:{:.5f}, pre@15:{:.5f}, rec@15:{:.5f}"
+                        .format(losses / count, can_all_pre_5 / count, can_all_rec_5 / count,
                                 can_all_pre_10 / count,
                                 can_all_rec_10 / count, can_all_pre_15 / count, can_all_rec_15 / count))
 
