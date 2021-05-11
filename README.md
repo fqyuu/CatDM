@@ -11,7 +11,7 @@ Install tensorflow 1.12.2.
 
 ## Data
 
-Datasets for training/evaluation.
+We provide a processed NYC dataset for training/evaluation. If you need the complete NYC and TKY data set, please click the link below to download.
 
 - [NYC](https://www.kaggle.com/chetanism/foursquare-nyc-and-tokyo-checkin-dataset/version/2#): the Foursquare check-ins in New York
 
